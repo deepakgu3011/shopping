@@ -32,7 +32,7 @@
                                         Buy Now
                                     </a>
                                 @else
-                                    <a href="{{ url('login') }}" class="btn btn-primary">Login to buy</a>
+                                    <a href="{{ route('login') }}" class="btn btn-primary">Login to buy</a>
                                 @endif
                             </div>
                         </div>

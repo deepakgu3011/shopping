@@ -26,6 +26,6 @@
 
     <br>
     <p>Thank you!</p>
-    <p><img src="{{ asset('favicon.ico') }}" alt="" >style="width: 50px; height: 50px; border-radius: 10%; object-fit: cover;"></p>
+    <p><img src="{{ asset('favicon.ico') }}" alt="" style="width: 50px; height: 50px; border-radius: 10%; object-fit: cover;"></p>
 </body>
 </html>

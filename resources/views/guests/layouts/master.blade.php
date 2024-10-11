@@ -104,7 +104,7 @@
                     </div>
                 </li>
             @else
-                <li class="nav-item d-none d-sm-inline-block">
+                <li class="nav-item  d-sm-inline-block">
                     <a href="{{ route('login') }}" class="nav-link">Login</a>
                 </li>
             @endif

@@ -4,8 +4,14 @@
 @endpush
 @section('content')
 <div class="container">
-    <div class="table-responsive">
+<div class="row">
+<div class="col d-flex" style="justify-content: space-between;">
+        <a href="{{ url()->previous() }}" class="btn btn-warning" >Go Back</a>
+
         <a href="{{ route('products.create') }}" class="btn btn-success">Add New Product</a>
+</div>
+</div>
+    <div class="table-responsive">
         <table class="table" id="roles">
             <thead>
                 <tr>

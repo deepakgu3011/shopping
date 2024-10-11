@@ -114,6 +114,7 @@ class AuthuserController extends Controller
         if (Auth::attempt($credentials)) {
             if (auth()->user()->role_id == '1') {
                 $data['products'] = Product::get()->count();
+               
 
                 // dd($data);
                 return redirect()->route('admin.dashboard', $data);
@@ -161,7 +162,8 @@ class AuthuserController extends Controller
     {
         $data['totalProducts'] = Product::get()->count();
         $data['totalUsers'] = User::where('role_id', '=', '2')->count();
-
+        $data['inactiveproducts'] = Product::where('products_status','=','inactive')->count();
+        $data['activeproducts'] = Product::where('products_status','=','active')->count();
         // dd($data);
         return view('admin.dashboard', $data);
     }

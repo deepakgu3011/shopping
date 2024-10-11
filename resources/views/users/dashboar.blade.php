@@ -20,12 +20,13 @@
                         </p>
 
                         @if (auth()->check())
-                        <a href="{{ url(Crypt::decrypt($product->link)) }}" class="btn btn-secondary"
-                            onclick="return confirmRedirect('You are about to be redirected to the Amazon website. Do you want to continue?')">
-                            Buy Now
-                        </a>
+                        <form action="{{(Crypt::decrypt($product->link)) }}" method="get">
+                        <button type="submit" class="btn btn-primary" onclick="return confirmRedirect('You are about to be redirected to the Amazon website. Do you want to continue?')">
+                            Buy Now</button>
+                        </form>
+                        
                         @else
-                           <a href="{{ url('login') }}" class="btn btn-primary">Login to buy</a>
+                           <a href="{{ route('login') }}" class="btn btn-primary">Login to buy</a>
                         @endif
                     </div>
                 </div>
