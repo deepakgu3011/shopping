@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="r3Bdu0Td_e-yJ7g8HQidTiVYt2aM_OVVJtwTRviXBfY" />
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -51,7 +52,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand navbar-dark navbar-light">
+    <nav class="navbar navbar-expand navbar-dark navbar-light" style="position: sticky;top: 0px;z-index: 1;">
         <ul class="navbar-nav">
             {{-- <li class="nav-item d-sm-inline-block" >
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
