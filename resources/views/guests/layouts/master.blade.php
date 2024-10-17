@@ -76,6 +76,9 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="{{ route('aboutus') }}" class="nav-link">About Us</a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ route('blog') }}" class="nav-link">Blog</a>
+            </li>
             <li class="nav-item dropdown d-none d-sm-inline-block">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Category
@@ -113,7 +116,7 @@
 
     </nav>
 
-    <aside class="main-sidebar sidebar-dark-primary elevation-4" id="navigation">
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" id="navigation"     style="position: fixed;">
         <div class="sidebar">
             <ul class="navbar-nav">
                 <li class="nav-item d-flex" style="justify-content: space-between;">
@@ -128,6 +131,9 @@
                 </li>
                 <li class="nav-item  d-sm-inline-block">
                     <a href="{{ route('aboutus') }}" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item  d-sm-inline-block">
+                    <a href="{{ route('blog') }}" class="nav-link">Blog</a>
                 </li>
                 <li class="nav-item dropdown  d-sm-inline-block">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

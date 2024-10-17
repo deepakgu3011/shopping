@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +11,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthuserController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
@@ -21,7 +23,7 @@ Route::get('/', function () {
         }
     }
 
-    $data['products'] = Product::with('category')->where('products_status', '=', 'active')->get();
+    $data['products'] = Product::with('category')->where('products_status', '=', 'active')->orderBy('created_at', 'desc')->get();
     return view('guests.welcome', $data);
 })->name('/');
 
@@ -72,12 +74,16 @@ Route::get('showall', [ContactController::class, 'showcontact'])->name('showall'
 Route::get('contact', [ContactController::class, 'user'])->name('contact');
 Route::get('aboutus', [AboutController::class, 'index1'])->name('aboutus');
 Route::post('uscontact', [ContactController::class, 'usercontact'])->name('ucontact.store');
+Route::get('blog',[BlogController::class,'users'])->name('blog');
+Route::get('blog/{id}',[BlogController::class,'readblog'])->name('blog.read');
+
 
 // Admin routes
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function () { // '1' is the role ID for admins
     Route::get('dashboard', [AuthuserController::class, 'admindashboard'])->name('admin.dashboard');
     Route::resource('roles', RoleController::class);
     Route::resource('contacts', ContactController::class);
+    Route::get('contact/request',[ContactController::class,'showcontact'])->name('contact/request');
     Route::resource('aboutus', AboutController::class);
     Route::resource('brands', BrandController::class);
     Route::resource('categories', CategoryController::class);
@@ -86,4 +92,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('sub/category', [CategoryController::class, 'subcreate'])->name('sub.category.create');
     Route::post('sub/category', [CategoryController::class, 'substore'])->name('sub.category.store');
     Route::resource('products', ProductController::class);
+    ROute::resource('blogs',BlogController::class);
 });

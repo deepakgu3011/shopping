@@ -61,14 +61,11 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'brand_id' => 'required|exists:brands,id',
         ], [
             'name' => 'Category name is required',
-            'brand_id' => 'Please Select Brand Name',
         ]);
         $data = Category::findorfail($id);
         $data->name = Crypt::encrypt($request->name);
-        $data->brand_id = $request->brand_id;
         $data->save();
 
         return redirect()->route('categories.index')->with('success', 'Category Updated Successfuly!');

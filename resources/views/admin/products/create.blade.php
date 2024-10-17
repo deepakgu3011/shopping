@@ -126,8 +126,12 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('#desc').summernote();
+    });
+    </script>
+  
     <script>
         $(document).ready(function() {
             // Show or hide eye icon based on input value

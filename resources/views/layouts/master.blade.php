@@ -35,9 +35,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     {{-- summer note --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
-
 
     {{-- ajax cdn --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
@@ -68,10 +67,18 @@
             </a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ url('/') }}" class="nav-link">Home</a>
+            <a href="{{ url('/') }}" class="nav-link">Dashboard</a>
         </li>
+        @php
+        use App\Models\Contact;
+        use Carbon\Carbon;
+            $todayContactCount=Contact::whereDate('created_at', Carbon::today())->count();
+        @endphp
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
+            <a href="{{route('contact/request')}}" class="nav-link">Users Contact Request
+            @if($todayContactCount > 0)
+        <span class="badge bg-danger">{{ $todayContactCount }}</span> 
+    @endif</a>
         </li>
     </ul>
 
@@ -247,6 +254,31 @@
                         </ul>
                     </li>
                     <li class="nav-item">
+                        <a href="#" class="nav-link {{ Request::is('admin/blogs*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Manage Blogs
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('blogs.index') }}"
+                                    class="nav-link {{ Request::is('admin/blogs') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Blogs</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('blogs.create') }}"
+                                    class="nav-link {{ Request::is('admin/blogs/create') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add New Blog</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -309,7 +341,7 @@
     </div>
 
 </body>
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<!--script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script-->
 
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 

@@ -52,4 +52,8 @@ class User extends Authenticatable
     public function address(){
         return $this->hasOne(UserAddress::class);
     }
+
+    public function blogs(){
+        return $this->hasMany(Blog::class,'user_id');
+    }
 }

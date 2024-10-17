@@ -25,7 +25,7 @@ class ContactController extends Controller
     public function showcontact()
     {
         $data['contact'] = Contact::get();
-
+        // dd($data);
         return view('admin.contacts.show', $data);
     }
 
@@ -112,30 +112,35 @@ class ContactController extends Controller
 
     }
 
-    public function usercontact(Request $request)
-    {
-        // dd($request->all());
-        $request->validate(['name' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email',
-            'des', 'required'],
-            ['name' => 'Name is Required',
-                'phone' => 'Phone Number is Required',
-                'email' => 'Email is Required',
-                'des' => 'Message is Required',
-            ]);
+   public function usercontact(Request $request)
+{
+    // Validate the input
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'phone' => 'required',
+        'email' => 'required|email',
+        'des' => 'required'
+    ], [
+        'name.required' => 'Name is required',
+        'phone.required' => 'Phone Number is required',
+        'email.required' => 'Email is required',
+        'email.email' => 'Please enter a valid email address',
+        'des.required' => 'Message is required'
+    ]);
 
-       try {
+    try {
         $contact = new Contact;
-        $contact->name = Crypt::encrypt($request->name);
-        $contact->phone_number = Crypt::encrypt($request->phone);
-        $contact->email = Crypt::encrypt($request->email);
-        $contact->message = Crypt::encrypt($request->des);
+        $contact->name = Crypt::encrypt($validatedData['name']);
+        $contact->phone_number = Crypt::encrypt($validatedData['phone']);
+        $contact->email = Crypt::encrypt($validatedData['email']);
+        $contact->message = Crypt::encrypt($validatedData['des']);
         $contact->save();
 
-        return redirect()->back()->with('success', 'Thanks For Contact');
-       } catch (\Throwable $th) {
-        return redirect()->back()->with('fail','Try After Sometime!');
-       }
+        return redirect()->back()->with('success', 'Thanks for contacting us');
+    } 
+    catch (\Throwable $th) {
+        return redirect()->back()->with('fail', 'Please try again later');
     }
+}
+
 }
