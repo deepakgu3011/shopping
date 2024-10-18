@@ -15,7 +15,9 @@ class BlogController extends Controller
     public function index()
     {
 
-        //
+        $data['posts'] = Blog::all();
+
+        return view('admin.blog.index', $data);
     }
 
     /**
@@ -23,7 +25,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.blog.create');
+
     }
 
     /**
@@ -31,7 +34,30 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        // $data=Crypt::encrypt($request->all());
+        $data = $request->validate(['title' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+            'status' => 'required|in:draft,published']);
+
+        if ($data) {
+            $blog = new Blog;
+            $blog->user_id=(auth()->user()->id);
+            $blog->title = Crypt::encrypt($request->title);
+            $blog->description = Crypt::encrypt($request->description);
+            $blog->image = Crypt::encrypt($request->image);
+            $blog->status =$request->status;
+            // dd($blog);
+            $blog->save();
+
+            // code...
+            return redirect()->route('blogs.index')->with('success', 'Blog Saved!');
+        } else {
+            return redirect()->back()->with('fail', 'Blog Not Saved!');
+
+        }
+
     }
 
     /**
@@ -51,7 +77,11 @@ class BlogController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $id = Crypt::decrypt($id);
+        // dd($id);
+        $data['blog'] = Blog::findorFail($id);
+
+        return view('admin.blog.edit', $data);
     }
 
     /**
@@ -59,15 +89,36 @@ class BlogController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $blogId = Crypt::decrypt($id);
+
+        // Validate the incoming request data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'required|url',
+            'status' => 'required|in:draft,published',
+        ]);
+
+        $blog = Blog::findOrFail($blogId);
+        $blog->title = Crypt::encrypt($request->title);
+        $blog->user_id=(auth()->user()->id);
+        $blog->description = Crypt::encrypt($request->description);
+        $blog->image = Crypt::encrypt($request->image);
+        $blog->status = $request->status;
+        $blog->save();
+        return redirect()->route('blogs.index')->with('success', 'Blog post updated successfully.');
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function users()
     {
-        //
+        $publish=('published');
+        $data['blogs']=Blog::where('status','=',$publish)->get();
+        return view('users.blog.index',$data);
     }
 
     public function readblog($id){
