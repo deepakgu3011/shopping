@@ -81,7 +81,7 @@ class BlogController extends Controller
         // dd($id);
         $data['blog'] = Blog::findorFail($id);
 
-        return view('admin.blog.edit', $data);
+        return view('admin.blog.edit', $data); 
     }
 
     /**
