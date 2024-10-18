@@ -95,3 +95,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::resource('products', ProductController::class);
     ROute::resource('blogs',BlogController::class);
 });
+
+Route::get('/bot',function(){
+    return view('bot');
+});
+Route::match(['get', 'post'], 'botman', 'App\Http\Controllers\BotManController@handle');
