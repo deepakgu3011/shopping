@@ -3,6 +3,7 @@
     <title>Products</title>
 @endpush
 @section('content')
+
 <div class="container">
 <div class="row">
 <div class="col d-flex" style="justify-content: space-between;">
@@ -18,6 +19,7 @@
                     <th scope="col">Sr No.</th>
                     <th scope="col">Name</th>
                     <th scope="col">Image</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -30,10 +32,22 @@
                 @endphp
                 <tr class="">
                     <td scope="row">{{ $loop->iteration }}</td>
-                    <td>{{ ucfirst($product->name) }}</td>
+                    <td>{{ Str::words(ucfirst($product->name), 5 )}}</td>
+
                     {{-- @dd($product) --}}
                     <td style="mix-blend-mode: multiply;" ><img src="{{ $img }}" alt="" style="width: 5rem;cursor:pointer;" id="showImage"
                                         data-toggle="modal" data-target="#imageModal" id="image"></td>
+                                        @php
+$color='';
+if($product->products_status==='active'){
+    $color="color:green";
+}
+else{
+    $color="color:red";
+}
+@endphp
+                    <td style="{{$color}}">{{ ucfirst($product->products_status) }}</td>
+
                     <td>{{ \Carbon\Carbon::parse($product->created_at)->setTimeZone('Asia/KolKata')->format('d-M-Y h:i: A') }}</td>
                     <td><a href="{{ route('products.edit',$id) }}" class="btn btn-danger">Edit</a></td>
                 </tr>
@@ -78,8 +92,15 @@
                 "columnDefs": [{
                         "width": "20%",
                         "targets": 0
-                    }],
-            })
+                    },
+                    {
+                         "width": "25%",
+                        "targets": 1
+                    }
+                    ],
+                     "autoWidth": false,  
+            "responsive": true,
+            });
 
         });
     </script>

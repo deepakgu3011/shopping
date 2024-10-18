@@ -22,7 +22,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    <!--div class="mb-3">
                         <label for="brand" class="form-label">Select Brand</label>
                         <select name="brand_id" id="brand" class="form-control select-2">
                             <option value="">Select Brand</option>
@@ -35,7 +35,7 @@
                         @error('brand_id')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div-->
 
                     <button type="submit" class="btn btn-success">Update</button>
                     <a href="{{ route('categories.index') }}" class="btn btn-secondary">Cancel</a>

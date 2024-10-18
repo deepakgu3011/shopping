@@ -13,21 +13,24 @@ class ProductController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $status = Crypt::decrypt($request->input('status'));
-        // dd($status);
-        if($status=='active'){
-            $data['products']=Product::where('products_status','=','active')->paginate(10);
-        }
-        elseif($status=='inactive'){
-           $data['products']=Product::where('products_status','=','inactive')->paginate(10);
-        }
-        else{
-            $data['products']=Product::with('category')->where('products_status','=','active')->paginate(10);
-        }
-        return view('admin.products.index',$data);
+{
+    $query = Product::with('category');
 
+    if ($request->input('status')) {
+        $status = Crypt::decrypt($request->input('status'));
+        
+        if ($status == 'active') {
+            $query->where('products_status', 'active');
+        } elseif ($status == 'inactive') {
+            $query->where('products_status', 'inactive');
+        }
     }
+
+    $data['products'] = $query->get(); 
+    
+    return view('admin.products.index', $data);
+}
+
 
     /**
      * Show the form for creating a new resource.
