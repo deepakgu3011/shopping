@@ -87,3 +87,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::post('sub/category', [CategoryController::class, 'substore'])->name('sub.category.store');
     Route::resource('products', ProductController::class);
 });
+
+Route::get('/bot',function(){
+    return view('bot');
+});
+Route::match(['get', 'post'], 'botman', 'App\Http\Controllers\BotManController@handle');
