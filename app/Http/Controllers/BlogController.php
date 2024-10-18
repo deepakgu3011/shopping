@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Comments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -64,7 +65,11 @@ class BlogController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $id=Crypt::decrypt($id);
+        $blog = Blog::with('users','comments')->findorFail($id);
+        return view('admin.blog.show', compact('blog'));
+
+
     }
 
     /**
@@ -119,7 +124,32 @@ class BlogController extends Controller
     public function readblog($id){
         $id=Crypt::decrypt($id);
         $publish=('published');
-        $data['blog'] = Blog::with('users')->where('id', $id)->where('status', $publish)->firstOrFail();
+        $data['blog'] = Blog::with('users','comments')->where('id', $id)->where('status', $publish)->firstOrFail();
         return view('users.blog.read',$data);
+    }
+
+    public function comment(Request $request){
+        // dd($request->all());
+        $request->validate([
+            'comment'=>'required',
+            'blog_id'=>'required',
+        ],[
+            'comment.required'=>'Please enter your comment',
+        ]);
+        $blog_id=$request->blog_id;
+        $blog=Blog::findorFail($blog_id);
+        if($blog){
+            $comment=new Comments();
+            $comment->comment=Crypt::encrypt($request->comment);
+            $comment->blog_id=$blog_id;
+            $comment->user_id=(auth()->user()->id);
+            $comment->save();
+            return redirect()->back()->with('success','Comment added successfully');
+        }
+        else{
+            return redirect()->back()->with('error','Blog not found');
+        }
+
+
     }
 }

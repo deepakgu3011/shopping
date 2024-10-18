@@ -76,6 +76,7 @@ Route::get('aboutus', [AboutController::class, 'index1'])->name('aboutus');
 Route::post('uscontact', [ContactController::class, 'usercontact'])->name('ucontact.store');
 Route::get('blog',[BlogController::class,'users'])->name('blog');
 Route::get('blog/{id}',[BlogController::class,'readblog'])->name('blog.read');
+Route::post('blog/{id}/comment',[BlogController::class,'comment'])->name('blog.comment');
 
 
 // Admin routes

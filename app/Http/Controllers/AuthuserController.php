@@ -114,7 +114,7 @@ class AuthuserController extends Controller
         if (Auth::attempt($credentials)) {
             if (auth()->user()->role_id == '1') {
                 $data['products'] = Product::get()->count();
-               
+
 
                 // dd($data);
                 return redirect()->route('admin.dashboard', $data);

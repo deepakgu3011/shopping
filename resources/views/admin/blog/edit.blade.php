@@ -5,7 +5,11 @@
 
 @section('content')
     <div class="container">
+        <div class="row">
+
         <h2>Edit Blog</h2>
+        <a href="{{ url()->previous() }}" class="btn btn-warning"> Back</a>
+        </div>
         <form action="{{ route('blogs.update', Crypt::encrypt($blog->id)) }}" method="POST">
             @csrf
             @method('PUT')
