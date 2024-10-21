@@ -16,9 +16,11 @@ class Newblog extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public $blog;
+
+    public function __construct($blog)
     {
-        //
+        return $this->blog=$blog;
     }
 
     /**
@@ -34,8 +36,10 @@ class Newblog extends Mailable
     /**
      * Get the message content definition.
      */
-    public function build(){
-        return $this->view('users.blog.email.new');
+    public function build()
+    {
+        return $this->subject('New Blog Post: ' . decrypt($this->blog->title))
+                    ->view('users.blog.email.new');
     }
 
     /**

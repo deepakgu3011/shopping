@@ -18,7 +18,8 @@
         @endif
 
         <div class="row">
-            <div class="col-6">
+            <!-- Profile Update Card -->
+            <div class="col-lg-6 col-md-12 mb-4">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Update your profile information</h3>
@@ -29,33 +30,37 @@
 
                             <div class="form-group mb-3">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}" required>
+                                <input type="text" name="name" id="name" class="form-control"
+                                    value="{{ old('name', $user->name) }}" required>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                                <input type="email" name="email" id="email" class="form-control"
+                                    value="{{ old('email', $user->email) }}" required>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label for="password">Change Password</label>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="Leave blank to keep current password">
+                                <input type="password" name="password" id="password" class="form-control"
+                                    placeholder="Leave blank to keep current password">
                             </div>
 
                             <div class="form-group mb-3">
                                 <label for="join">Join At</label>
-                                <input type="text" name="join" id="join" class="form-control" value="{{ \Carbon\Carbon::parse($user->created_at)->setTimezone('Asia/Kolkata')->format('d-M-Y') }}" readonly>
+                                <input type="text" name="join" id="join" class="form-control"
+                                    value="{{ \Carbon\Carbon::parse($user->created_at)->setTimezone('Asia/Kolkata')->format('d-M-Y') }}"
+                                    readonly>
                             </div>
 
                             <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
                         </form>
-
                     </div>
                 </div>
             </div>
 
             <!-- Address Card -->
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12 mb-4">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">{{ isset($user->address) ? 'Edit Your Address' : 'Add Your Address' }}</h3>

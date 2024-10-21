@@ -23,7 +23,7 @@
                                         <th>Blog Description</th>
                                         <th>Image</th>
                                         <th>Created At</th>
-                                        <th>Action</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,10 +43,10 @@
                                                      style="width: 75px; height: 50px; aspect-ratio: 3/4; object-fit: cover; mix-blend-mode: multiply;">
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($blog->created_at)->setTimezone('Asia/Kolkata')->format('d-M-Y h:i A') }}</td>
-                                            <td class="d-flex mr-2">
-                                                <a href="{{ route('blogs.edit', Crypt::encrypt($blog->id)) }}" class="btn btn-primary">Edit</a>
-                                                <a href="{{ route('blogs.show', Crypt::encrypt($blog->id)) }}" class="btn btn-primary">Details</a>
-                                                <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" >
+                                            <td class="d-flex">
+                                                <a href="{{ route('blogs.edit', Crypt::encrypt($blog->id)) }}" class="btn btn-primary m-2">Edit</a>
+                                                <a href="{{ route('blogs.show', Crypt::encrypt($blog->id)) }}" class="btn btn-info m-2">Details</a>
+                                                <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" class="m-2">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Delete</button>

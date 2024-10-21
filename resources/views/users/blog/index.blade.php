@@ -40,5 +40,6 @@
             </div>
         @endif
 
+        @include('users.blog.subscribe')
     </div>
 @endsection

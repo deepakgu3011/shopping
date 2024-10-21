@@ -1,17 +1,19 @@
 <?php
 
-use App\Models\Product;
 use Carbon\Carbon;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BotManController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthuserController;
-use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
@@ -77,6 +79,12 @@ Route::post('uscontact', [ContactController::class, 'usercontact'])->name('ucont
 Route::get('blog',[BlogController::class,'users'])->name('blog');
 Route::get('blog/{id}',[BlogController::class,'readblog'])->name('blog.read');
 Route::post('blog/{id}/comment',[BlogController::class,'comment'])->name('blog.comment');
+Route::post('blog/subscribe',[BlogController::class,'subscribe'])->name('blog.subscribe');
+// Route::match(['get', 'post'],'blog/unsubscribe',[BlogController::class,'unsubscribe'])->name('blog.unsubscribe');
+// ('blog/subscribe',[BlogController::class,'subscribe'])->name('blog.subscribe');
+Route::get('blog/unsubscribe', function(){
+    return "function works";
+})->name('blog/unsubscribe');
 
 
 // Admin routes
@@ -93,10 +101,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:1']], function
     Route::get('sub/category', [CategoryController::class, 'subcreate'])->name('sub.category.create');
     Route::post('sub/category', [CategoryController::class, 'substore'])->name('sub.category.store');
     Route::resource('products', ProductController::class);
-    ROute::resource('blogs',BlogController::class);
+    Route::resource('blogs',BlogController::class);
+    Route::resource('alerts',AlertController::class);
 });
 
-Route::get('/bot',function(){
-    return view('bot');
-});
-Route::match(['get', 'post'], 'botman', 'App\Http\Controllers\BotManController@handle');
+
+// Route::match(['get', 'post'], 'botman/chat', 'App\Http\Controllers\BotManController@handle')->name('botman.chat');
+Route::match(['get', 'post'], '/botman/chat', [BotManController::class, 'handle'])->name('botman.chat');
+

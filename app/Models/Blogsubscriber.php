@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Blogsubscriber extends Model
 {
     use HasFactory;
-    protected $table='blogsubscribers';
-    protected $fillable=['email','status'];
+    protected $table='subscribers';
+    protected $fillable=['email'];
 
 
 }

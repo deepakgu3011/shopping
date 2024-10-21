@@ -21,54 +21,78 @@
                 </small>
                 <br>
                 <small class="text-muted">
-                    Published on: {{ \Carbon\Carbon::parse($blog->created_at)->setTimezone('Asia/Kolkata')->format('d-M-Y h:i A') }}
+                    Published on:
+                    {{ \Carbon\Carbon::parse($blog->created_at)->setTimezone('Asia/Kolkata')->format('d-M-Y h:i A') }}
                 </small>
             </p>
 
             <!-- Comments Section -->
-            <div class="mt-4">
-                <h5>Comments</h5>
-                @if($blog->comments->isEmpty())
-                    <p>No comments yet. Be the first to comment!</p>
-                @else
-                    @foreach($blog->comments as $comment)
-                        <div class="border p-2 mb-2">
-                            <strong>{{ $comment->user->name  ? $comment->user->name :"No Name"}}</strong>
-                            <hr>
-                            <p>{{ Crypt::decrypt($comment->comment) }}</p>
-                            <small class="text-muted">
-                                Commented on: {{ \Carbon\Carbon::parse($comment->created_at)->setTimezone('Asia/Kolkata')->format('d-M-Y h:i A') }}
-                            </small>
-                        </div>
-                    @endforeach
-                @endif
+            <div class="row responsive">
+                <div class="col-lg-6 col-md-12 mb-3">
+                    <div class="comment">
+                        <h5>Comments</h5>
+                        @if ($blog->comments->isEmpty())
+                            <p>No comments yet. Be the first to comment!</p>
+                        @else
+                            <div class="mes"
+                                style="height: 18rem; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #888 #f1f1f1;">
+                                @foreach ($blog->comments as $comment)
+                                    <div class="border p-2 mb-2">
+                                        <div class="row">
+                                            <strong>
+                                                <i class="fa fa-user-circle mr-2" aria-hidden="true"></i>
+                                                {{-- {{ $comment->user->name ? $comment->user->name : 'No Name' }} --}}
+                                                {{  $comment->name ? Crypt::decrypt($comment->name) : "No Name" }}
+                                            </strong>
+                                        </div>
+                                        <hr>
+                                        <p>{{ Crypt::decrypt($comment->comment) }}</p>
+                                        <small class="text-muted">
+                                            Commented on:
+                                            {{ \Carbon\Carbon::parse($comment->created_at)->setTimezone('Asia/Kolkata')->format('d-M-Y h:i A') }}
+                                        </small>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-12">
+
+                        <form action="{{ route('blog.comment', Crypt::encrypt($blog->id)) }}" method="post">
+                            @csrf
+                            <input type="hidden" name="blog_id" id="blog_id" value="{{ $blog->id }}">
+
+                            <div class="form-group">
+                                <label for="Name">Name:</label>
+                                <input type="text" class="form-control" id="Name" name="name" rows="8" value="{{ old('name') }}" required>
+                                @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" rows="8" value="{{ old('email') }}" required>
+                                @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                                @error('comment')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="d-flex" style="justify-content: space-between;">
+                                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                <a href="{{ route('blog') }}" class="btn btn-primary">Back to Blog List</a>
+                            </div>
+                        </form>
+                </div>
             </div>
 
-            @if (!auth()->user())
-                <div class="d-flex">
-                    <form action="{{ route('login') }}" method="get" class="mr-2">
-                        @csrf
-                        <button type="submit" class="btn btn-primary">Login to Comment</button>
-                    </form>
-                    <a href="{{ route('blog') }}" class="btn btn-primary">Back to Blog List</a>
-                </div>
-            @else
-                <form action="{{ route('blog.comment', Crypt::encrypt($blog->id)) }}" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <input type="number" name="blog_id" id="blog_id" value="{{ $blog->id }}" hidden>
-                        <input type="number" name="user_id" id="user_id" value="{{ auth()->user()->id }}" hidden>
-                        <label for="comment">Comment:</label>
-                        <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
-                    </div>
-                    <div class="d-flex">
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                        <a href="{{ route('blog') }}" class="btn btn-primary">Back to Blog List</a>
-                    </div>
-                </form>
-            @endif
-
-
         </div>
-    </div>
-@endsection
+        @include('users.blog.subscribe')
+    @endsection
